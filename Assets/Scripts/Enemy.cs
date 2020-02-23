@@ -22,7 +22,6 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
-        _audioSource = GameObject.Find("Audio Manager").GetComponent<AudioSource>();
         //null check player
         if (_player == null)
         {
@@ -35,7 +34,10 @@ public class Enemy : MonoBehaviour
         {
             Debug.LogError("The Animator is NULL");
         }
-        if(_audioSource == null)
+
+        _audioSource = GameObject.Find("Audio Manager").GetComponent<AudioSource>();
+        //null check AuidoSource
+        if (_audioSource == null)
         {
             Debug.LogError("The _audioSource on Enemy is NULL");
         }

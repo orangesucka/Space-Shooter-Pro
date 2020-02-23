@@ -6,15 +6,17 @@ public class EnemyLazer : MonoBehaviour
 {
     [SerializeField]
     private float _downSpeed = 2;
+
     // Start is called before the first frame update
     void Start()
     {
-
+     
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         transform.Translate(Vector3.down * _downSpeed * Time.deltaTime);
 
         if (transform.position.y < -7.5f)
