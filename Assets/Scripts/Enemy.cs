@@ -103,5 +103,17 @@ public class Enemy : MonoBehaviour
             GetComponent<BoxCollider2D>().enabled = false;
             Destroy(this.gameObject, 3f);
         }
+
+         if(other.tag == "Atmosphere")
+        {
+            if(_player != null)
+            {
+                _player.Score(-10);
+            }
+            _audioSource.PlayOneShot(_enemyExplosion);
+            _animator.SetTrigger("OnEnemyDeath");
+            GetComponent<BoxCollider2D>().enabled = false;
+            Destroy(this.gameObject, 3f);
+        }
     }
 }
