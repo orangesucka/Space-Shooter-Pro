@@ -7,12 +7,6 @@ public class EnemyLazer : MonoBehaviour
     [SerializeField]
     private float _downSpeed = 2;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-     
-    }
-
     // Update is called once per frame
     void Update()
     {

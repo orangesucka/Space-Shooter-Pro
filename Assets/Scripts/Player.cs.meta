@@ -3,7 +3,21 @@ guid: c7a4b8d87f028f240aec527890c8019c
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - _lazerPrefabs: {fileID: 2223553968370909650, guid: d68ea5ddb819fff4ab424e7319f10423,
+      type: 3}
+  - _Triple_Shot: {fileID: 1972787757708205613, guid: b105c6761852787478e61f078d6c2923,
+      type: 3}
+  - _shieldPrefab: {fileID: 332103825479194726, guid: 80760412db1f79e40826a603b391e2b2,
+      type: 3}
+  - _thrusters: {instanceID: 0}
+  - _turboThruster: {instanceID: 0}
+  - _boostThruster: {instanceID: 0}
+  - _rightEngine: {instanceID: 0}
+  - _leftEngine: {instanceID: 0}
+  - _lazerSound: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
+  - _explosion: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
+  - _powerUPSound: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

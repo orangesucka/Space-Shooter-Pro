@@ -9,6 +9,7 @@ TagManager:
   - PowerUo
   - Asteroid
   - Atmosphere
+  - BFLTag
   layers:
   - Default
   - TransparentFX

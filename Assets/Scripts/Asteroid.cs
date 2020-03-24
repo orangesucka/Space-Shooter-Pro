@@ -35,5 +35,12 @@ public class Asteroid : MonoBehaviour
             _spawnManager.StartSpawning();
             Destroy(this.gameObject, .25f);
         }
+        else if(other.tag == "BFLTag")
+        {
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            _audioSource.PlayOneShot(_astroidExplosion, 1.5f);
+            _spawnManager.StartSpawning();
+            Destroy(this.gameObject, .25f);
+        }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
@@ -10,7 +8,7 @@ public class PowerUp : MonoBehaviour
     private AudioClip _audioPowerUp;
     private AudioSource _audioSource;
 
-    //0 = Triple shot, 1 = Speed, 2 = Shield
+    //0 = Triple shot, 1 = Speed, 2 = Shield, 3 = Ammo Refill, 4 = One up
     [SerializeField]
     private int powerupID;
     private void Start()
@@ -45,7 +43,20 @@ public class PowerUp : MonoBehaviour
                         player.SpeedUpActive();
                         break;
                     case 2:
+                        //Debug.Log("Case 2 Active");
                         player.ShieldActive();
+                        break;
+                    case 3:
+                        //Debug.Log("Case 3 Active");
+                        player.AmmoRefillActive();
+                        break;
+                    case 4:
+                        //Debug.Log("Case 4 Active");
+                        player.OneUp();
+                        break;
+                    case 5:
+                        //Debug.Log("Case 5 Active");
+                        player.BigFNLaserActive();
                         break;
                 }
             }
