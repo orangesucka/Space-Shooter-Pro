@@ -13,7 +13,7 @@ public class EnemyLazer : MonoBehaviour
         
         transform.Translate(Vector3.down * _downSpeed * Time.deltaTime);
 
-        if (transform.position.y < -7.5f)
+        if (transform.position.y < -7.5f || transform.position.x > 9f)
         {
             if (transform.parent != null)
             {

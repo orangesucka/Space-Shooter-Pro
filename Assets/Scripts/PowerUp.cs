@@ -8,7 +8,7 @@ public class PowerUp : MonoBehaviour
     private AudioClip _audioPowerUp;
     private AudioSource _audioSource;
 
-    //0 = Triple shot, 1 = Speed, 2 = Shield, 3 = Ammo Refill, 4 = One up
+    //0 = Triple shot, 1 = Speed, 2 = Shield, 3 = Ammo Refill, 4 = One up, 5 = BFL, 6 = PowerDown;
     [SerializeField]
     private int powerupID;
     private void Start()
@@ -48,7 +48,7 @@ public class PowerUp : MonoBehaviour
                         break;
                     case 3:
                         //Debug.Log("Case 3 Active");
-                        player.AmmoRefillActive();
+                        player.PowerDownActive();
                         break;
                     case 4:
                         //Debug.Log("Case 4 Active");
@@ -57,6 +57,10 @@ public class PowerUp : MonoBehaviour
                     case 5:
                         //Debug.Log("Case 5 Active");
                         player.BigFNLaserActive();
+                        break;
+                    case 6:
+                        //Debug.Log("Case 6 Active");
+                        player.AmmoRefillActive();
                         break;
                 }
             }

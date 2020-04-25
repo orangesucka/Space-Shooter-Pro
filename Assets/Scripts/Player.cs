@@ -1,15 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Net.Configuration;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    private float _horizontalSpeed = 5.5f, _fireRate = .1f, _verticalSpeed = 5.5f, _turboThrusters = 1, _shieldRotationSpeed = 10, _startTime = 0f, _timer = 1f, _boostPer;
+    private float _horizontalSpeed = 5.5f, _fireRate = 3f, _verticalSpeed = 5.5f, _turboThrusters = 1, _shieldRotationSpeed = 10, _startTime = 0f, _timer = 1f, _boostPer, _rotateSpeed;
     [SerializeField]
     private int _score, _shieldPower, _ammo;
     [SerializeField]
     private int _lives = 3, _speedBoostAmount = 3;
+
+    public Joystick _joystickL;
+    Vector2 _origin;
 
     private float _canFire = 0f;
 
@@ -21,7 +27,6 @@ public class Player : MonoBehaviour
     private AudioSource _audioSource;
     private UIManager _uiManager;
     private SpawnManager _spawnManager;
-    private Animator _animator;
     private ShakeScreen _shake;
 
     private bool _tripleShot = false;
@@ -29,19 +34,14 @@ public class Player : MonoBehaviour
     private bool _speedBoostActive = false;
     private bool _shieldActiveBool = false;
     private bool _outOfAmmo = false;
+    private bool _ammoEmpty = false;
     private bool _thrustersbool = false;
-    
 
     // Start is called before the first frame update
     void Start()
     {
         _timer = 100;
         _shake = GameObject.Find("Main Camera").GetComponent<ShakeScreen>();
-        _animator = GetComponent<Animator>();
-        if (_animator == null)
-        {
-            Debug.LogError("The Animator in Player is NULL");
-        }
         _spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
         if (_spawnManager == null)
         {
@@ -61,9 +61,12 @@ public class Player : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {   
+        
         MovementCalculations();
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
+        ShieldSpinny();
+
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             FireLazer();
         }
@@ -79,19 +82,20 @@ public class Player : MonoBehaviour
             Boost(_timer);
             Thruster();
             StartCoroutine(ThrusterPowerDownRoutine());
-        }
-        
-        ShieldSpinny();
+        }      
     }
+
+        
     void MovementCalculations()
-    {
+        {
+
         float verticalInput = Input.GetAxis("Vertical");
         float horizontalInput = Input.GetAxis("Horizontal");
-
         transform.Translate(Vector3.up * verticalInput * _verticalSpeed * Time.deltaTime);
         transform.Translate(Vector3.right * horizontalInput * _horizontalSpeed * Time.deltaTime);
         _thrusters.GetComponent<SpriteRenderer>().enabled = true;
         _boostThruster.GetComponent<SpriteRenderer>().enabled = false;
+
 
         if (_speedBoostActive == true)
         {
@@ -129,14 +133,14 @@ public class Player : MonoBehaviour
 
         else if (_tripleShot == true)
         {
-            Instantiate(_Triple_Shot, transform.localPosition + new Vector3(0f, 1f, 0f), Quaternion.identity);
+            Instantiate(_Triple_Shot, transform.localPosition + new Vector3(0f, 0f, 0f), Quaternion.Euler(transform.localEulerAngles));
             _audioSource.PlayOneShot(_lazerSound, 1);
         }
 
         else if (_outOfAmmo == false)
         {
             Ammo(1);//Amount of ammo a "FireLazer" uses
-            Instantiate(_lazerPrefabs, transform.localPosition + new Vector3(0f, 1.5f, 0), Quaternion.identity);
+            Instantiate(_lazerPrefabs, transform.localPosition + new Vector3(0f, 0f, 0), Quaternion.Euler(transform.localEulerAngles));
             _audioSource.PlayOneShot(_lazerSound, 1f);
         }
     }
@@ -154,7 +158,7 @@ public class Player : MonoBehaviour
 
     IEnumerator ThrusterPowerDownRoutine()
     {
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(1f);
         _thrusters.GetComponent<SpriteRenderer>().enabled = true;
         _boostThruster.GetComponent<SpriteRenderer>().enabled = false;
         _thrustersbool = true;
@@ -163,7 +167,7 @@ public class Player : MonoBehaviour
 
     IEnumerator SomethingInBetween()
     {
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(1f);
 
         _timer++;
         if(_timer >= 100)
@@ -177,7 +181,7 @@ public class Player : MonoBehaviour
 
     IEnumerator ThrustersRecharge()
     {
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(1f);
         _thrustersbool = false;
     }
 
@@ -268,6 +272,18 @@ public class Player : MonoBehaviour
             }
         }
     }
+    public void PowerDownActive()
+    {
+        _ammoEmpty = true;
+        _ammo = 0;
+        _uiManager.UpdateAmmo(_ammo);
+        StartCoroutine(PowerDownRoutine());
+    }
+    IEnumerator PowerDownRoutine()
+    {
+        yield return new WaitForSeconds(2.0f);
+        _ammoEmpty = false;
+    }
 
     public void TripleShotActive()
     {
@@ -283,7 +299,6 @@ public class Player : MonoBehaviour
 
     public void AmmoRefillActive()
     {
-        //Debug.Log("Ammo Refill Active");
         _ammo = 15;
         _uiManager.UpdateAmmo(_ammo);
         _outOfAmmo = false;
@@ -310,9 +325,12 @@ public class Player : MonoBehaviour
 
     public void OneUp()
     {
-        _lives++;
-        _uiManager.UpdateLives(_lives);
-        if (_lives >= 3)
+        if (_lives < 3)
+        {
+            _lives++;
+            _uiManager.UpdateLives(_lives);
+        }
+        else if (_lives >= 3)
         {
             _lives = 3;
         }

@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class EnemyLefttoRight : MonoBehaviour
 {
     [SerializeField]
-    private float _falling = 4f;
+    private float _falling = 4f, _rotationSpeed;
     [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
     private AudioClip _enemyExplosion;
-
-    private float _fireRate = 3.0f, _canFire = -1, _deceleration = 2.5f;
+    
+    private float _fireRate = 1.0f, _canFire = -1, _deceleration = 2.5f;
     
     private Animator _animator;
     private Player _player;
@@ -20,6 +20,8 @@ public class Enemy : MonoBehaviour
     // Start is called befor the first frame update
     private void Start()
     {
+        
+        transform.Rotate(0, 0, 90);
         _player = GameObject.Find("Player").GetComponent<Player>();
         if (_player == null)
         {
@@ -44,6 +46,10 @@ public class Enemy : MonoBehaviour
     {
         CalculateMovement();
 
+        EnemyFire();
+    }
+    void EnemyFire()
+    {
         if (Time.time > _canFire)
         {
             _fireRate = Random.Range(3f, 7f);
@@ -55,14 +61,9 @@ public class Enemy : MonoBehaviour
     void CalculateMovement()
     {
         transform.Translate(Vector3.down * _falling * Time.deltaTime);
-
-        if (transform.position.y < -4.5)
+        if (transform.position.x > 6.5)
         {
-            float randomX = Random.Range(-9f, 9f);
-            if (transform.position.y < -6.5)
-            {
-                Destroy(this.gameObject);
-            }
+            Destroy(this.gameObject);
         }
     }    
 
