@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _lives = 3, _speedBoostAmount = 3;
 
-    public Joystick _joystickL, _joysticR;
+    public Joystick _joystickL, _joystickR;
     Vector2 _origin;
 
     [SerializeField]
@@ -63,13 +63,13 @@ public class Player : MonoBehaviour
         MovementCalculations();
         ShieldSpinny();
 
-        if(_joysticR.Horizontal > 0)
-        //if (Input.GetKeyDown(KeyCode.Space))
+        if((_joystickR.Vertical > .5)  && Time.time > _canFire)
+        //if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
         {
             _canFire = Time.time + _fireRate;
             FireLazer();
         }
-        if ((_joysticR.Horizontal < 0) && _thrustersbool == false);
+        if ((_joystickR.Vertical < -.5f) && _thrustersbool == false)
         //if (Input.GetKey(KeyCode.LeftShift) && _thrustersbool == false)
         {
             _timer--;
