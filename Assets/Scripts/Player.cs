@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Net.Configuration;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.UI;
@@ -8,16 +7,14 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    private float _horizontalSpeed = 5.5f, _fireRate = 3f, _verticalSpeed = 5.5f, _turboThrusters = 1, _shieldRotationSpeed = 10, _startTime = 0f, _timer = 1f, _boostPer, _rotateSpeed;
+    private float _horizontalSpeed = 5.5f, _fireRate = 0.15f, _canFire = -1f, _verticalSpeed = 5.5f, _turboThrusters = 1, _shieldRotationSpeed = 10, _startTime = 0f, _timer = 1f, _boostPer, _rotateSpeed;
     [SerializeField]
     private int _score, _shieldPower, _ammo;
     [SerializeField]
     private int _lives = 3, _speedBoostAmount = 3;
 
-    public Joystick _joystickL;
+    public Joystick _joystickL, _joysticR;
     Vector2 _origin;
-
-    private float _canFire = 0f;
 
     [SerializeField]
     private GameObject _lazerPrefabs, _Triple_Shot, _bFL, _shieldPrefab, _oneUp, _thrusters, _turboThruster, _boostThruster, _rightEngine, _leftEngine;
@@ -66,12 +63,14 @@ public class Player : MonoBehaviour
         MovementCalculations();
         ShieldSpinny();
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if(_joysticR.Horizontal > 0)
+        //if (Input.GetKeyDown(KeyCode.Space))
         {
+            _canFire = Time.time + _fireRate;
             FireLazer();
         }
-        
-        if (Input.GetKey(KeyCode.LeftShift) && _thrustersbool == false)
+        if ((_joysticR.Horizontal < 0) && _thrustersbool == false);
+        //if (Input.GetKey(KeyCode.LeftShift) && _thrustersbool == false)
         {
             _timer--;
             if (_timer <= 0)
@@ -88,9 +87,10 @@ public class Player : MonoBehaviour
         
     void MovementCalculations()
         {
-
-        float verticalInput = Input.GetAxis("Vertical");
-        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = _joystickL.Vertical;
+        float horizontalInput = _joystickL.Horizontal;
+        //float verticalInput = Input.GetAxis("Vertical");
+        //float horizontalInput = Input.GetAxis("Horizontal");
         transform.Translate(Vector3.up * verticalInput * _verticalSpeed * Time.deltaTime);
         transform.Translate(Vector3.right * horizontalInput * _horizontalSpeed * Time.deltaTime);
         _thrusters.GetComponent<SpriteRenderer>().enabled = true;
@@ -124,6 +124,7 @@ public class Player : MonoBehaviour
 
     void FireLazer()
     {
+
         _canFire = Time.time + _fireRate;
 
         if (_ammo <= 0)
@@ -146,9 +147,10 @@ public class Player : MonoBehaviour
     }
     public void Thruster()
     {
-        float verticalInput = Input.GetAxis("Vertical");
-        float horizontalInput = Input.GetAxis("Horizontal");
-
+        float verticalInput = _joystickL.Vertical;
+        float horizontalInput = _joystickL.Horizontal;
+        //float verticalInput = Input.GetAxis("Vertical");
+        //float horizontalInput = Input.GetAxis("Horizontal");
         transform.Translate(Vector3.up * verticalInput * (_verticalSpeed + _turboThrusters) * Time.deltaTime);
         transform.Translate(Vector3.right * horizontalInput * (_horizontalSpeed + _turboThrusters) * Time.deltaTime);
         _boostThruster.GetComponent<SpriteRenderer>().enabled = true;
