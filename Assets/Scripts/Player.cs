@@ -63,13 +63,13 @@ public class Player : MonoBehaviour
         MovementCalculations();
         ShieldSpinny();
 
-        if((_joystickR.Vertical > .5)  && Time.time > _canFire)
+        if((_joystickR.Vertical > .25)  && Time.time > _canFire)
         //if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
         {
             _canFire = Time.time + _fireRate;
             FireLazer();
         }
-        if ((_joystickR.Vertical < -.5f) && _thrustersbool == false)
+        if ((_joystickR.Vertical < -.25f) && _thrustersbool == false)
         //if (Input.GetKey(KeyCode.LeftShift) && _thrustersbool == false)
         {
             _timer--;
