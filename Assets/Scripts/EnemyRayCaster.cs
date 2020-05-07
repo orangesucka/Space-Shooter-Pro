@@ -5,21 +5,15 @@ using UnityEngine;
 public class EnemyRayCaster : MonoBehaviour
 {
     public Vector2 size;
-    public float maxDistance = 5f;
-
-    public float _rotateSpeed = 600f;
-    public float _falling = 3.0f;
-
-    //[SerializeField]
-    private Transform _target;
-    //private Transform _angle;
+    [SerializeField]
+    private Vector3 _origin, _direction;
+    public float maxDistance = 5f, _rotateSpeed = 600f, _falling = 3.0f;
+    [SerializeField]
+    private int _enemyNumber;
     [SerializeField]
     private AudioClip _enemyExplosion;
 
-    [SerializeField]
-    private Vector3 _origin;
-    private Vector3 _direction;
-
+    private Transform _target;
     private Rigidbody2D _rb;
     private Animator _animator;
     private AudioSource _audioSource;
@@ -58,7 +52,7 @@ public class EnemyRayCaster : MonoBehaviour
         _direction = new Vector2(0, -1);
         RaycastHit2D boxResult;
         boxResult = Physics2D.BoxCast(_origin, size, 0f, _direction, maxDistance);
-        //Debug.Log(boxResult.collider.name);
+        
         if (boxResult.collider.tag == "Player")
         {
             Vector2 direction = (Vector2)_target.position - _rb.position;
@@ -70,7 +64,6 @@ public class EnemyRayCaster : MonoBehaviour
             if (_rb.position.y < -6.5)
             {
                 Destroy(this.gameObject);
-                //Debug.Log("POOP");
             }
         }
         else if(boxResult.collider.tag != "Player")

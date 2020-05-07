@@ -7,30 +7,25 @@ using UnityEngine;
 public class EnemyUpShotScript: MonoBehaviour
 {
     [SerializeField]
-    private float _falling = 2f, _deceleration = 2.5f;
-    [SerializeField]
-    private float maxDistance;
+    private float _falling = 2f, _deceleration = 2.5f, maxDistance, _fireRate = 3.0f, _canFire = -1, currentHitDistance;
     [SerializeField]
     GameObject _laserPrefab;
     [SerializeField]
     private Vector2 _size;
     [SerializeField]
+    private Vector3 _origin, _direction;
+    [SerializeField]
     private AudioClip _enemyExplosion;
-
-    private float _fireRate = 3.0f, _canFire = -1;
 
     private Animator _animator;
     private Player _player;
+    private BoxCollider2D _bC2D;
     private AudioSource _audioSource;
     private Rigidbody2D _rb;
     private Transform _target;
 
-    [SerializeField]
-    private Vector3 _origin;
-    private Vector3 _direction;
     private bool _rayCastBool;
 
-    private float currentHitDistance;
     // Start is called befor the first frame update
     private void Start()
     {
@@ -41,7 +36,8 @@ public class EnemyUpShotScript: MonoBehaviour
         {
             Debug.LogError("The Player is NULL");
         }
-
+        _bC2D = _player.GetComponent<BoxCollider2D>();
+        
         _animator = GetComponent<Animator>();
         if (_animator == null)
         {
@@ -63,6 +59,8 @@ public class EnemyUpShotScript: MonoBehaviour
         CalculateMovement();
 
         Raycaster();
+
+        Dodge();
     }
     void Raycaster()
     {
@@ -70,20 +68,18 @@ public class EnemyUpShotScript: MonoBehaviour
     _direction = new Vector2(1, 0);
     RaycastHit2D boxResult;
     boxResult = Physics2D.BoxCast(_origin, _size, 0f, _direction, maxDistance);
-        //Debug.Log(boxResult.collider.name);
-        if (boxResult.collider.tag != "Player")
+     
+    if (boxResult.collider != _bC2D)
+    {
+        _rayCastBool = false;
+        if (transform.position.y < -6.5)
         {
-            boxResult.collider.tag = null;
-            _rayCastBool = false;
-            if (transform.position.y < -6.5)
-            {
-                Destroy(this.gameObject);
-            }
+            Destroy(this.gameObject);
         }
-        else if (boxResult.collider.tag == "Player")
+    }
+        if(boxResult.collider == _bC2D)
         {
             _rayCastBool = true;
-            Debug.Log("POOP");
             EnemyFire();
             
             if (_rb.position.y< -6.5)
@@ -91,7 +87,6 @@ public class EnemyUpShotScript: MonoBehaviour
                 Destroy(this.gameObject);
             }
         }
-        
     }
 
     private void OnDrawGizmosSelected()
@@ -101,18 +96,41 @@ public class EnemyUpShotScript: MonoBehaviour
         Gizmos.DrawCube(_origin + _direction * currentHitDistance, _size);
     }
 
+
+    void Dodge()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _animator.SetTrigger("OnTeleport");
+            if (transform.position.x < 0)
+            {
+                Debug.Log("time equals 0");
+                transform.Translate(Vector3.right * _falling * 160 * Time.deltaTime);
+            }
+            else if(transform.position.x > 0)
+            {
+                Debug.Log("Time does not equal 0");
+                transform.Translate(Vector3.left * _falling * 160 * Time.deltaTime);
+            }
+        }
+    }
+
     void EnemyFire()
     {
         if (Time.time > _canFire)
         {
             _fireRate = Random.Range(3f, 7f);
             _canFire = Time.time + _fireRate;
-            Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+            Instantiate(_laserPrefab, transform.position + new Vector3(0, 2, 0), Quaternion.identity);
         }
     }
 
     void CalculateMovement()
     {
+        if ((transform.position.x >= .999f)||(transform.position.x <= -.999))
+        {
+            transform.Translate(Vector3.down * _falling * Time.deltaTime);
+        }
         if (_rayCastBool == true && transform.position.x <= -1)
         {
             transform.Translate(Vector3.right * _falling * Time.deltaTime);

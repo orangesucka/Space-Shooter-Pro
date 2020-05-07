@@ -5,13 +5,11 @@ using UnityEngine;
 public class EnemyRighttoLeft : MonoBehaviour
 {
     [SerializeField]
-    private float _falling = 4f, _rotationSpeed;
+    private float _falling = 4f, _rotationSpeed, _fireRate = 3f, _canFire = -1, _deceleration = 2.5f;
     [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
     private AudioClip _enemyExplosion;
-
-    private float _fireRate = 1.0f, _canFire = -1, _deceleration = 2.5f;
 
     private Animator _animator;
     private Player _player;

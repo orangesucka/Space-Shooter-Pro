@@ -5,40 +5,22 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject[] _enemys;
-    [SerializeField]
-    private GameObject[] _powerups;
+    public GameObject[] _enemys, _powerups;
     [SerializeField]
     private int _spawnTime;
-    //[SerializeField]
-    //private int _waveTwo, _waveThree;
 
     private bool _stopEnemySpawning = false;
     private bool _stopPowerUpSpawning = false;
-    private bool _waveTwo = false;
-    private bool _waveThree = false;
-    // Start is called before the first frame update
-    void Start()
-    {
 
-    }
-    private void Update()
-    {
-    }
     public void StartSpawning()
     {
         StartCoroutine(SpawnPowerUpRoutine());
+
         StartCoroutine(MorePowerUpRoutine());
 
         StartCoroutine(SpawnEnemyRoutine());
-        StartCoroutine(SpawnEnemy5Routine());
-        StartCoroutine(SpawnEnemy6Routine());
-        StartCoroutine(SpawnEnemy7Routine());
-        //StartCoroutine(SpawnEnemy1Routine());
-        //StartCoroutine(SpawnEnemy2Routine());
-        //StartCoroutine(SpawnEnemy3Routine());
 
-        //StartCoroutine(SpawnEnemy4Routine());
+        StartCoroutine(SpawnEnemy1Routine());
     }
 
     IEnumerator SpawnEnemyRoutine()
@@ -138,7 +120,7 @@ public class SpawnManager : MonoBehaviour
         while(_stopPowerUpSpawning == false)
         {
             Vector3 posToSpawn = new Vector3(Random.Range(-7.5f, 7.5f), 6f, 0f);
-            int randomPowerUp = Random.Range(0, 7);
+            int randomPowerUp = Random.Range(0, 8);
             Instantiate(_powerups[randomPowerUp], transform.position + posToSpawn, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(5f, 10f));
         }
@@ -157,16 +139,32 @@ public class SpawnManager : MonoBehaviour
 
     public void Wavetwo()
     {
-        Debug.Log("WaveTwo has been activated");
-        StartCoroutine(SpawnEnemy3Routine());
-        StartCoroutine(SpawnEnemy4Routine());
-
+        StartCoroutine(SpawnEnemy2Routine());
     }
 
     public void WaveThree()
     {
-        StartCoroutine(SpawnEnemy1Routine());
-        StartCoroutine(SpawnEnemy2Routine());
+        StartCoroutine(SpawnEnemy3Routine());
+    }
+
+    public void WaveFour()
+    {
+        StartCoroutine(SpawnEnemy4Routine());
+    }
+
+    public void WaveFive()
+    {
+        StartCoroutine(SpawnEnemy5Routine());
+    }
+
+    public void WaveSix()
+    {
+        StartCoroutine(SpawnEnemy6Routine());
+    }
+
+    public void WaveSeven()
+    {
+        StartCoroutine(SpawnEnemy7Routine());
     }
 
     public void OnPlayerDeath()

@@ -5,14 +5,12 @@ using UnityEngine;
 public class EnemyLefttoRightZag : MonoBehaviour
 {
     [SerializeField]
-    private float _falling = 4f, _rotationSpeed;
+    private float _falling = 2f, _rotationSpeed, _fireRate = 1f, _canFire = -1, _deceleration = 1f;
     [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
     private AudioClip _enemyExplosion;
-    
-    private float _fireRate = 1.0f, _canFire = -1, _deceleration = 2.5f;
-    
+
     private Animator _animator;
     private Player _player;
     private AudioSource _audioSource;
@@ -50,9 +48,9 @@ public class EnemyLefttoRightZag : MonoBehaviour
     {
         if (Time.time > _canFire)
         {
-            _fireRate = Random.Range(3f, 7f);
+            _fireRate = Random.Range(.1f, 1f);
             _canFire = Time.time + _fireRate;
-            Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+            Instantiate(_laserPrefab, transform.position + new Vector3(0,-2,0), Quaternion.identity);
         }
     }
 
@@ -88,7 +86,7 @@ public class EnemyLefttoRightZag : MonoBehaviour
             _animator.SetTrigger("OnEnemyDeath");
             _falling = _deceleration;
             GetComponent<BoxCollider2D>().enabled = false;
-            Destroy(this.gameObject, 3f);
+            Destroy(this.gameObject, 1f);
         }
         if(other.tag == "BFLTag")
         {
@@ -100,7 +98,7 @@ public class EnemyLefttoRightZag : MonoBehaviour
             _animator.SetTrigger("OnEnemyDeath");
             _falling = _deceleration;
             GetComponent<BoxCollider2D>().enabled = false;
-            Destroy(this.gameObject, 3f);
+            Destroy(this.gameObject, 1f);
         }
 
          if(other.tag == "Lazer")
@@ -114,7 +112,7 @@ public class EnemyLefttoRightZag : MonoBehaviour
             _animator.SetTrigger("OnEnemyDeath");
             _falling =_deceleration;
             GetComponent<BoxCollider2D>().enabled = false;
-            Destroy(this.gameObject, 3f);
+            Destroy(this.gameObject, 1f);
         }
 
          if(other.tag == "Atmosphere")
