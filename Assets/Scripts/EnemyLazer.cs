@@ -6,7 +6,16 @@ public class EnemyLazer : MonoBehaviour
 {
     [SerializeField]
     private float _downSpeed = 2;
+    [SerializeField]
+    private GameObject _enemyLazerExplosionPrefab;
+    [SerializeField]
+    private AudioClip _enemyLazerExplosion;
+    private AudioSource _audioSource;
 
+    private void Start()
+    {
+        _audioSource = GameObject.Find("Audio Manager").GetComponent<AudioSource>();
+    }
     // Update is called once per frame
     void Update()
     {
@@ -35,6 +44,13 @@ public class EnemyLazer : MonoBehaviour
             }
             Destroy(this.gameObject);
         }
+        if (other.tag == "PowerUo")
+        {
+            Instantiate(_enemyLazerExplosionPrefab, transform.position, Quaternion.identity);
+            _audioSource.PlayOneShot(_enemyLazerExplosion, 1.5f);
+            Destroy(other.gameObject);
+        }
+        Destroy(this.gameObject);
     }
 }
 

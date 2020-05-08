@@ -166,8 +166,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _falling: 2
   _deceleration: 2.5
+  _laserPrefab: {fileID: 1473263212385617374, guid: cc45e22a93083ce46a0032e93ea26f90,
+    type: 3}
   _enemyShield: {fileID: 8734327373600648529}
   _enemyExplosion: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
+  _enemyNumber: 1
   _shieldPower: 2
   _shieldActiveBool: 1
 --- !u!1001 &775353601

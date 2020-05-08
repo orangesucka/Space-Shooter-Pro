@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
-    private Text _scoreText, _gameOver, _restartLevel, _ammoCount, _boosterPercent, _wave2, _wave3;
+    private Text _scoreText, _gameOver, _restartLevel, _ammoCount, _boosterPercent, _wave2, _wave3, _wave4, _wave5, _wave6, _wave7;
     [SerializeField]
     private Image _livesImg, _xImg;
     [SerializeField]
@@ -23,36 +23,54 @@ public class UIManager : MonoBehaviour
         _gameOver.gameObject.SetActive(false);
         _wave2.gameObject.SetActive(false);
         _wave3.gameObject.SetActive(false);
+        _wave4.gameObject.SetActive(false);
+        _wave5.gameObject.SetActive(false);
+        _wave6.gameObject.SetActive(false);
+        _wave7.gameObject.SetActive(false);
         _restartLevel.gameObject.SetActive(false);
         _xImg.gameObject.SetActive(false);
 
         _ammoCount.text = "Ammo:" + 15 + "/15";
         _boosterPercent.text = "Booster " + 100 + "%";
         
-
         _spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
+        if (_spawnManager == null)
+        {
+            Debug.LogError("Spawn Manager is NULL");
+        }
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
-
         if(_gameManager == null)
         {
             Debug.LogError("GameManager is NULL");
-        }
-        if(_spawnManager == null)
-        {
-            Debug.LogError("Spawn Manager is NULL");
         }
     }
 
     public void UpdateScore(int playerScore)
     {
         _scoreText.text = "Score: " + playerScore;
-        if(playerScore == 100)
+        if (playerScore == 20)
         {
             WaveTwoSequence();
         }
-        else if(playerScore == 150)
+        if (playerScore == 40)
         {
             WaveThreeSequence();
+        }
+        if (playerScore == 60)
+        {
+            WaveFourSequence();
+        }
+        if (playerScore == 80)
+        {
+            WaveFiveSequence();
+        }
+        if (playerScore == 100)
+        {
+            WaveSixSequence();
+        }
+        if (playerScore == 120)
+        {
+            WaveSevenSequence();
         }
     }
 
@@ -185,6 +203,121 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(.5f);
             _gameOver.text = "";
             yield return new WaitForSeconds(.5f);
+        }
+    }
+
+    void WaveFourSequence()
+    {
+        Debug.Log("Wave Four!");
+        _wave2.gameObject.SetActive(true);
+        StartCoroutine(WaveFourTimedRoutine());
+        _spawnManager.WaveFour();
+        StartCoroutine(WaveFourOver());
+    }
+
+    void WaveFiveSequence()
+    {
+        Debug.Log("Wave Five!");
+        _wave5.gameObject.SetActive(true);
+        StartCoroutine(WaveFiveTimedRoutine());
+        _spawnManager.WaveFive();
+        StartCoroutine(WaveFiveOver());
+    }
+
+    IEnumerator WaveFourTimedRoutine()
+    {
+        while (true)
+        {
+            _wave4.text = "WAVE 4";
+            yield return new WaitForSeconds(.5f);
+            _wave4.text = "";
+            yield return new WaitForSeconds(.5f);
+        }
+    }
+
+    IEnumerator WaveFiveTimedRoutine()
+    {
+        while (true)
+        {
+            _wave5.text = "WAVE 5";
+            yield return new WaitForSeconds(.5f);
+            _wave5.text = "";
+            yield return new WaitForSeconds(.5f);
+        }
+    }
+
+    IEnumerator WaveFourOver()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(5);
+            _wave4.gameObject.SetActive(false);
+        }
+    }
+
+    IEnumerator WaveFiveOver()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(5f);
+            _wave5.gameObject.SetActive(false);
+        }
+    }
+    void WaveSixSequence()
+    {
+        Debug.Log("Wave Six!");
+        _wave6.gameObject.SetActive(true);
+        StartCoroutine(WaveSixTimedRoutine());
+        _spawnManager.WaveSix();
+        StartCoroutine(WaveSixOver());
+    }
+
+    void WaveSevenSequence()
+    {
+        Debug.Log("Wave Seven!");
+        _wave7.gameObject.SetActive(true);
+        StartCoroutine(WaveSevenTimedRoutine());
+        _spawnManager.WaveSeven();
+        StartCoroutine(WaveSevenOver());
+    }
+
+    IEnumerator WaveSixTimedRoutine()
+    {
+        while (true)
+        {
+            _wave6.text = "WAVE 6";
+            yield return new WaitForSeconds(.5f);
+            _wave6.text = "";
+            yield return new WaitForSeconds(.5f);
+        }
+    }
+
+    IEnumerator WaveSevenTimedRoutine()
+    {
+        while (true)
+        {
+            _wave7.text = "WAVE 7";
+            yield return new WaitForSeconds(.5f);
+            _wave7.text = "";
+            yield return new WaitForSeconds(.5f);
+        }
+    }
+
+    IEnumerator WaveSixOver()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(5);
+            _wave6.gameObject.SetActive(false);
+        }
+    }
+
+    IEnumerator WaveSevenOver()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(5f);
+            _wave7.gameObject.SetActive(false);
         }
     }
 }

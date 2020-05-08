@@ -5,19 +5,15 @@ using UnityEngine;
 public class EnemyDown : MonoBehaviour
 {
     [SerializeField]
-    private float _falling = 2f, _deceleration = 2.5f;
-    //[SerializeField]
-    //private GameObject _laserPrefab;
+    private float _falling = 2f, _deceleration = 2.5f, _fireRate = 3.0f, _canFire = -1;
+    [SerializeField]
+    private GameObject _laserPrefab;
     [SerializeField]
     private SpriteRenderer _enemyShield;
     [SerializeField]
     private AudioClip _enemyExplosion;
-
     [SerializeField]
     private int _shieldPower = 2;
-    private float _fireRate = 3.0f, _canFire = -1;
-
-    [SerializeField]
     private bool _shieldActiveBool = true;
 
     private Animator _animator;
@@ -63,7 +59,7 @@ public class EnemyDown : MonoBehaviour
         {
             _fireRate = Random.Range(3f, 7f);
             _canFire = Time.time + _fireRate;
-            //Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+            Instantiate(_laserPrefab, transform.position + new Vector3(0,-2,0), Quaternion.identity);
         }
     }
 

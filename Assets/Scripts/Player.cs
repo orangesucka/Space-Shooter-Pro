@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Net.Configuration;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.UI;
@@ -8,14 +8,25 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     [SerializeField]
+<<<<<<< HEAD
     private float _horizontalSpeed = 5.5f, _fireRate = 3f, _canFire = -1f, _verticalSpeed = 5.5f, _turboThrusters = 1, _shieldRotationSpeed = 10, _startTime = 0f, _timer = 1f, _boostPer, _rotateSpeed;
+=======
+    private float _horizontalSpeed = 5.5f, _fireRate = .2f, _canFire = -1f, _verticalSpeed = 5.5f, _turboThrusters = 1, _shieldRotationSpeed = 10, _startTime = 0f, _timer = 1f, _boostPer, _rotateSpeed;
+>>>>>>> dev
     [SerializeField]
     private int _score, _shieldPower, _ammo;
     [SerializeField]
     private int _lives = 3, _speedBoostAmount = 3;
+<<<<<<< HEAD
     Vector2 _origin;
+=======
+
+    public Joystick _joystickL, _joystickR;
+    Vector2 _origin;
+
+>>>>>>> dev
     [SerializeField]
-    private GameObject _lazerPrefabs, _Triple_Shot, _bFL, _shieldPrefab, _oneUp, _thrusters, _turboThruster, _boostThruster, _rightEngine, _leftEngine;
+    private GameObject _lazerPrefabs, _Triple_Shot, _bFL, _hSM, _shieldPrefab, _oneUp, _thrusters, _turboThruster, _boostThruster, _rightEngine, _leftEngine;
     [SerializeField]
     private AudioClip _lazerSound, _explosion, _powerUPSound;
 
@@ -26,6 +37,7 @@ public class Player : MonoBehaviour
 
     private bool _tripleShot = false;
     private bool _bFLBool = false;
+    private bool _heatSeekingMissileBool = false;
     private bool _speedBoostActive = false;
     private bool _shieldActiveBool = false;
     private bool _outOfAmmo = false;
@@ -60,12 +72,18 @@ public class Player : MonoBehaviour
         
         MovementCalculations();
         ShieldSpinny();
+<<<<<<< HEAD
 
+=======
+        
+        //if((_joystickR.Vertical > 0.2f) && _canFire < Time.time)
+>>>>>>> dev
         if (Input.GetKeyDown(KeyCode.Space) && _canFire < Time.time)
         {
             FireLazer();
         }
         
+        //if((_joystickR.Vertical < -0.2f) && _thrustersbool == false)
         if (Input.GetKey(KeyCode.LeftShift) && _thrustersbool == false)
         {
             _timer--;
@@ -84,8 +102,9 @@ public class Player : MonoBehaviour
     void MovementCalculations()
         {
 
-        float verticalInput = Input.GetAxis("Vertical");
-        float horizontalInput = Input.GetAxis("Horizontal");
+
+        float verticalInput = Input.GetAxis("Vertical");//_joystickL.Vertical;
+        float horizontalInput = Input.GetAxis("Horizontal");//_joystickL.Horizontal;
         transform.Translate(Vector3.up * verticalInput * _verticalSpeed * Time.deltaTime);
         transform.Translate(Vector3.right * horizontalInput * _horizontalSpeed * Time.deltaTime);
         _thrusters.GetComponent<SpriteRenderer>().enabled = true;
@@ -132,6 +151,11 @@ public class Player : MonoBehaviour
             _audioSource.PlayOneShot(_lazerSound, 1);
         }
 
+        else if(_heatSeekingMissileBool == true)
+        {
+            Instantiate(_hSM, transform.localPosition + new Vector3(0f, 0f, 0f), Quaternion.Euler(transform.localEulerAngles));
+        }
+
         else if (_outOfAmmo == false)
         {
             Ammo(1);//Amount of ammo a "FireLazer" uses
@@ -141,8 +165,8 @@ public class Player : MonoBehaviour
     }
     public void Thruster()
     {
-        float verticalInput = Input.GetAxis("Vertical");
-        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");//_joystickL.Vertical;
+        float horizontalInput = Input.GetAxis("Horizontal");//_joystickL.Horizontal;
 
         transform.Translate(Vector3.up * verticalInput * (_verticalSpeed + _turboThrusters) * Time.deltaTime);
         transform.Translate(Vector3.right * horizontalInput * (_horizontalSpeed + _turboThrusters) * Time.deltaTime);
@@ -170,7 +194,6 @@ public class Player : MonoBehaviour
             _timer = 100;
         }
         Boost(_timer);
-        //Debug.Log(_timer);
         StartCoroutine(ThrustersRecharge());
     }
 
@@ -222,7 +245,6 @@ public class Player : MonoBehaviour
     }
     public void ShieldActive()
     {
-        //Debug.Log("Shield Active");
         _shieldActiveBool = true;
         _audioSource.PlayOneShot(_powerUPSound, 1);
         _shieldPrefab.GetComponent<SpriteRenderer>().enabled = true;
@@ -329,6 +351,17 @@ public class Player : MonoBehaviour
         {
             _lives = 3;
         }
+    }
+    public void HeatSeekingMissileActive()
+    {
+        _heatSeekingMissileBool = true;
+        _audioSource.PlayOneShot(_powerUPSound, 1);
+        StartCoroutine(HeatSeekingMissilePowerDown());
+    }
+    IEnumerator HeatSeekingMissilePowerDown()
+    {
+        yield return new WaitForSeconds(5f);
+        _heatSeekingMissileBool = false;
     }
 
     public void Score(int points)

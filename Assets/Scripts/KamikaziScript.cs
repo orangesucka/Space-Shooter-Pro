@@ -5,16 +5,11 @@ using UnityEngine;
 public class KamikaziScript : MonoBehaviour
 {
     [SerializeField]
-    private float _falling = 3.0f;
-    [SerializeField]
-    private float _rotateSpeed = 600f;
+    private float _falling = 3.0f, _rotateSpeed = 600f;
     [SerializeField]
     private AudioClip _enemyExplosion;
 
-    //[SerializeField]
     private Transform _target;
-    private Transform _angle;
-
     private Animator _animator;
     private AudioSource _audioSource;
     private Player _player;
