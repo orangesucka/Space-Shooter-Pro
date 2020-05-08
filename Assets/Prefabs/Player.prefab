@@ -204,7 +204,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _horizontalSpeed: 5.5
+<<<<<<< HEAD
   _fireRate: 0.15
+=======
+  _fireRate: 0.2
+>>>>>>> dev
   _canFire: -1
   _verticalSpeed: 5.5
   _turboThrusters: 1
@@ -219,12 +223,17 @@ MonoBehaviour:
   _lives: 3
   _speedBoostAmount: 5
   _joystickL: {fileID: 0}
+<<<<<<< HEAD
   _joysticR: {fileID: 0}
+=======
+  _joystickR: {fileID: 0}
+>>>>>>> dev
   _lazerPrefabs: {fileID: 2223553968370909650, guid: d68ea5ddb819fff4ab424e7319f10423,
     type: 3}
   _Triple_Shot: {fileID: 1972787757708205613, guid: b105c6761852787478e61f078d6c2923,
     type: 3}
   _bFL: {fileID: 1322628848903838375}
+  _hSM: {fileID: 8152380775679500687, guid: b923c294e149a264d9dd64ce66cf0e33, type: 3}
   _shieldPrefab: {fileID: 3248553508223309873}
   _oneUp: {fileID: 2312741131095902004, guid: a055de59e4f3e954ebc78e1f5e26313f, type: 3}
   _thrusters: {fileID: 5077626001905590437}

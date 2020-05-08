@@ -164,5 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
+  _rotateSpeed: 600
   _audioPowerUp: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
   powerupID: 2
+  _target: {fileID: 5077626001326098364, guid: 52deb8c442e19894194aec0564fe3eb4, type: 3}

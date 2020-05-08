@@ -148,8 +148,9 @@ MonoBehaviour:
   maxDistance: 5
   _rotateSpeed: 600
   _falling: 3
+  _enemyNumber: 6
   _enemyExplosion: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
-  origin: {x: 0, y: 0, z: 0}
+  _origin: {x: 0, y: 0, z: 0}
 --- !u!95 &1360061005
 Animator:
   serializedVersion: 3
