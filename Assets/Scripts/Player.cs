@@ -8,23 +8,14 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     [SerializeField]
-<<<<<<< HEAD
     private float _horizontalSpeed = 5.5f, _fireRate = 3f, _canFire = -1f, _verticalSpeed = 5.5f, _turboThrusters = 1, _shieldRotationSpeed = 10, _startTime = 0f, _timer = 1f, _boostPer, _rotateSpeed;
-=======
-    private float _horizontalSpeed = 5.5f, _fireRate = .2f, _canFire = -1f, _verticalSpeed = 5.5f, _turboThrusters = 1, _shieldRotationSpeed = 10, _startTime = 0f, _timer = 1f, _boostPer, _rotateSpeed;
->>>>>>> dev
     [SerializeField]
     private int _score, _shieldPower, _ammo;
     [SerializeField]
     private int _lives = 3, _speedBoostAmount = 3;
-<<<<<<< HEAD
-    Vector2 _origin;
-=======
 
     public Joystick _joystickL, _joystickR;
     Vector2 _origin;
-
->>>>>>> dev
     [SerializeField]
     private GameObject _lazerPrefabs, _Triple_Shot, _bFL, _hSM, _shieldPrefab, _oneUp, _thrusters, _turboThruster, _boostThruster, _rightEngine, _leftEngine;
     [SerializeField]
@@ -72,12 +63,7 @@ public class Player : MonoBehaviour
         
         MovementCalculations();
         ShieldSpinny();
-<<<<<<< HEAD
-
-=======
-        
         //if((_joystickR.Vertical > 0.2f) && _canFire < Time.time)
->>>>>>> dev
         if (Input.GetKeyDown(KeyCode.Space) && _canFire < Time.time)
         {
             FireLazer();
