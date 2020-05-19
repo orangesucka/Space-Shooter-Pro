@@ -8,19 +8,20 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    private float _horizontalSpeed = 5.5f, _fireRate = .2f, _canFire = -1f, _verticalSpeed = 5.5f, _turboThrusters = 1, _shieldRotationSpeed = 10, _startTime = 0f, _timer = 1f, _boostPer, _rotateSpeed;
+    private float _horizontalSpeed = 5.5f, _fireRate = .2f, _canFire = -1f, _verticalSpeed = 5.5f, _turboThrusters = 1, _shieldRotationSpeed = 10, _timer = 1f, _boostPer, _rotateSpeed;
     [SerializeField]
     private int _score, _shieldPower, _ammo;
     [SerializeField]
-    private int _lives = 3, _speedBoostAmount = 3;
+    private int _lives = 3, _speedBoostAmount = 3, _lazerSoundInt;
 
     public Joystick _joystickL, _joystickR;
-    Vector2 _origin;
 
     [SerializeField]
     private GameObject _lazerPrefabs, _Triple_Shot, _bFL, _hSM, _shieldPrefab, _oneUp, _thrusters, _turboThruster, _boostThruster, _rightEngine, _leftEngine;
     [SerializeField]
-    private AudioClip _lazerSound, _explosion, _powerUPSound;
+    private AudioClip  _explosion, _powerUPSound, _BFLSound;
+    [SerializeField]
+    private AudioClip[] _lazerSound;
 
     private AudioSource _audioSource;
     private UIManager _uiManager;
@@ -79,7 +80,6 @@ public class Player : MonoBehaviour
             {
                 _timer = 0;
             }
-            //Debug.Log(_timer);
             Boost(_timer);
             Thruster();
             StartCoroutine(ThrusterPowerDownRoutine());
@@ -91,7 +91,7 @@ public class Player : MonoBehaviour
         {
 
 
-        float verticalInput = Input.GetAxis("Vertical");//_joystickL.Vertical;
+        float verticalInput = Input.GetAxis("Vertical");//_joystickL.Vertical
         float horizontalInput = Input.GetAxis("Horizontal");//_joystickL.Horizontal;
         transform.Translate(Vector3.up * verticalInput * _verticalSpeed * Time.deltaTime);
         transform.Translate(Vector3.right * horizontalInput * _horizontalSpeed * Time.deltaTime);
@@ -135,8 +135,9 @@ public class Player : MonoBehaviour
 
         else if (_tripleShot == true)
         {
+            _lazerSoundInt = Random.Range(0, 4);
             Instantiate(_Triple_Shot, transform.localPosition + new Vector3(0f, 0f, 0f), Quaternion.Euler(transform.localEulerAngles));
-            _audioSource.PlayOneShot(_lazerSound, 1);
+            _audioSource.PlayOneShot(_lazerSound[_lazerSoundInt], 1);
         }
 
         else if(_heatSeekingMissileBool == true)
@@ -147,14 +148,15 @@ public class Player : MonoBehaviour
         else if (_outOfAmmo == false)
         {
             Ammo(1);//Amount of ammo a "FireLazer" uses
+            _lazerSoundInt = Random.Range(0, 4);
             Instantiate(_lazerPrefabs, transform.localPosition + new Vector3(0f, 0f, 0), Quaternion.Euler(transform.localEulerAngles));
-            _audioSource.PlayOneShot(_lazerSound, 1f);
+            _audioSource.PlayOneShot(_lazerSound[_lazerSoundInt], 1f);
         }
     }
     public void Thruster()
     {
-        float verticalInput = Input.GetAxis("Vertical");//_joystickL.Vertical;
-        float horizontalInput = Input.GetAxis("Horizontal");//_joystickL.Horizontal;
+        float verticalInput =  Input.GetAxis("Vertical"); //_joystickL.Vertical;
+        float horizontalInput = Input.GetAxis("Horizontal"); //_joystickL.Horizontal;
 
         transform.Translate(Vector3.up * verticalInput * (_verticalSpeed + _turboThrusters) * Time.deltaTime);
         transform.Translate(Vector3.right * horizontalInput * (_horizontalSpeed + _turboThrusters) * Time.deltaTime);
@@ -316,7 +318,7 @@ public class Player : MonoBehaviour
         _audioSource.PlayOneShot(_powerUPSound, 1);
         _bFL.GetComponent<SpriteRenderer>().enabled = true;
         _bFL.GetComponent<BoxCollider2D>().enabled = true;
-        _audioSource.PlayOneShot(_lazerSound, 1);
+        _audioSource.PlayOneShot(_BFLSound,1);
         StartCoroutine(BFNPowerDown());
     }
     IEnumerator BFNPowerDown()

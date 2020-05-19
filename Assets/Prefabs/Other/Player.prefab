@@ -209,7 +209,6 @@ MonoBehaviour:
   _verticalSpeed: 5.5
   _turboThrusters: 1
   _shieldRotationSpeed: 100
-  _startTime: 0
   _timer: 1
   _boostPer: 100
   _rotateSpeed: 100
@@ -218,6 +217,7 @@ MonoBehaviour:
   _ammo: 15
   _lives: 3
   _speedBoostAmount: 5
+  _lazerSoundInt: 0
   _joystickL: {fileID: 0}
   _joystickR: {fileID: 0}
   _lazerPrefabs: {fileID: 2223553968370909650, guid: d68ea5ddb819fff4ab424e7319f10423,
@@ -233,9 +233,14 @@ MonoBehaviour:
   _boostThruster: {fileID: 5077626002290934865}
   _rightEngine: {fileID: 5077626001193669768}
   _leftEngine: {fileID: 5077626002246558555}
-  _lazerSound: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _explosion: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
   _powerUPSound: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
+  _BFLSound: {fileID: 8300000, guid: 9ae27a3b0e664ef488b01cac1f982f80, type: 3}
+  _lazerSound:
+  - {fileID: 8300000, guid: d0faa3e0d50013247b4e77934b3479e1, type: 3}
+  - {fileID: 8300000, guid: 4c3e5baba1d4a2b4b95cfda872f38c7b, type: 3}
+  - {fileID: 8300000, guid: a3eb87472cc71564baf3798aa8277d92, type: 3}
+  - {fileID: 8300000, guid: 5db38df08ed3b014c856845edc22b3ee, type: 3}
 --- !u!61 &5077626001326098363
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -848,6 +853,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065700106853357711, guid: 0abe267a74fb4e4439e83b7e05287e7d,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0abe267a74fb4e4439e83b7e05287e7d, type: 3}

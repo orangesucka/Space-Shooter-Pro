@@ -104,12 +104,10 @@ public class EnemyUpShotScript: MonoBehaviour
             _animator.SetTrigger("OnTeleport");
             if (transform.position.x < 0)
             {
-                Debug.Log("time equals 0");
                 transform.Translate(Vector3.right * _falling * 160 * Time.deltaTime);
             }
             else if(transform.position.x > 0)
             {
-                Debug.Log("Time does not equal 0");
                 transform.Translate(Vector3.left * _falling * 160 * Time.deltaTime);
             }
         }

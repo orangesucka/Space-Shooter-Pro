@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyLazer : MonoBehaviour
+public class BFL_LazerScript : MonoBehaviour
 {
     [SerializeField]
     private float _downSpeed = 2f;
@@ -19,9 +19,10 @@ public class EnemyLazer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.down * _downSpeed * Time.deltaTime);
-
-        if (transform.position.y < -7.5f || transform.position.x > 9f)
+        {
+            transform.Translate(Vector3.down * _downSpeed * Time.deltaTime);
+        }
+        if (transform.position.y < -15f)
         {
             if (transform.parent != null)
             {
@@ -30,7 +31,7 @@ public class EnemyLazer : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
@@ -41,16 +42,14 @@ public class EnemyLazer : MonoBehaviour
             {
                 player.Damage();
             }
-            Destroy(this.gameObject);
+            //Destroy(this.gameObject);
         }
+
         if (other.tag == "PowerUo")
         {
             Instantiate(_enemyLazerExplosionPrefab, transform.position, Quaternion.identity);
             _audioSource.PlayOneShot(_enemyLazerExplosion, 1.5f);
             Destroy(other.gameObject);
         }
-        Destroy(this.gameObject);
     }
 }
-
-

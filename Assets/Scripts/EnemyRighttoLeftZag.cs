@@ -15,6 +15,7 @@ public class EnemyRighttoLeftZag : MonoBehaviour
     private Player _player;
     private AudioSource _audioSource;
 
+
     // Start is called befor the first frame update
     private void Start()
     {

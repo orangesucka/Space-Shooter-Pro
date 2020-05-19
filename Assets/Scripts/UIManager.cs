@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
-    private Text _scoreText, _gameOver, _restartLevel, _ammoCount, _boosterPercent, _wave2, _wave3, _wave4, _wave5, _wave6, _wave7;
+    private Text _scoreText, _gameOver, _restartLevel, _ammoCount, _boosterPercent, _wave2, _wave3, _wave4, _wave5, _wave6, _wave7, _waveBoss, _waveEnd;
     [SerializeField]
     private Image _livesImg, _xImg;
     [SerializeField]
@@ -27,6 +27,8 @@ public class UIManager : MonoBehaviour
         _wave5.gameObject.SetActive(false);
         _wave6.gameObject.SetActive(false);
         _wave7.gameObject.SetActive(false);
+        _waveBoss.gameObject.SetActive(false);
+        _waveEnd.gameObject.SetActive(false);
         _restartLevel.gameObject.SetActive(false);
         _xImg.gameObject.SetActive(false);
 
@@ -71,6 +73,14 @@ public class UIManager : MonoBehaviour
         if (playerScore == 120)
         {
             WaveSevenSequence();
+        }
+        if(playerScore == 140)
+        {
+            WaveBossSequence();
+        }
+        if(playerScore >= 200)
+        {
+            WaveEndSequence();
         }
     }
 
@@ -139,7 +149,7 @@ public class UIManager : MonoBehaviour
 
     void WaveTwoSequence()
     {
-        Debug.Log("Wave Two!");
+
         _wave2.gameObject.SetActive(true);
         StartCoroutine(WaveTwoTimedRoutine());
         _spawnManager.Wavetwo();
@@ -148,7 +158,7 @@ public class UIManager : MonoBehaviour
 
     void WaveThreeSequence()
     {
-        Debug.Log("Wave Three!");
+
         _wave3.gameObject.SetActive(true);
         StartCoroutine(WaveThreeTimedRoutine());
         _spawnManager.WaveThree();
@@ -208,7 +218,7 @@ public class UIManager : MonoBehaviour
 
     void WaveFourSequence()
     {
-        Debug.Log("Wave Four!");
+
         _wave2.gameObject.SetActive(true);
         StartCoroutine(WaveFourTimedRoutine());
         _spawnManager.WaveFour();
@@ -217,7 +227,7 @@ public class UIManager : MonoBehaviour
 
     void WaveFiveSequence()
     {
-        Debug.Log("Wave Five!");
+
         _wave5.gameObject.SetActive(true);
         StartCoroutine(WaveFiveTimedRoutine());
         _spawnManager.WaveFive();
@@ -265,7 +275,7 @@ public class UIManager : MonoBehaviour
     }
     void WaveSixSequence()
     {
-        Debug.Log("Wave Six!");
+
         _wave6.gameObject.SetActive(true);
         StartCoroutine(WaveSixTimedRoutine());
         _spawnManager.WaveSix();
@@ -274,7 +284,7 @@ public class UIManager : MonoBehaviour
 
     void WaveSevenSequence()
     {
-        Debug.Log("Wave Seven!");
+
         _wave7.gameObject.SetActive(true);
         StartCoroutine(WaveSevenTimedRoutine());
         _spawnManager.WaveSeven();
@@ -318,6 +328,58 @@ public class UIManager : MonoBehaviour
         {
             yield return new WaitForSeconds(5f);
             _wave7.gameObject.SetActive(false);
+        }
+    }
+    void WaveBossSequence()
+    {
+
+        _waveBoss.gameObject.SetActive(true);
+        StartCoroutine(WaveBossTimedRoutine());
+        _spawnManager.BossWave();
+        StartCoroutine(WaveBossOver());
+    }
+    IEnumerator WaveBossTimedRoutine()
+    {
+        while (true)
+        {
+            _waveBoss.text = "WAVE BOSS";
+            yield return new WaitForSeconds(.5f);
+            _waveBoss.text = "";
+            yield return new WaitForSeconds(.5f);
+        }
+    }
+    IEnumerator WaveBossOver()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(5f);
+            _waveBoss.gameObject.SetActive(false);
+        }
+    }
+    void WaveEndSequence()
+    {
+
+        _waveEnd.gameObject.SetActive(true);
+        StartCoroutine(WaveEndRoutine());
+        _spawnManager.BossWave();
+        StartCoroutine(WaveEndOver());
+    }
+    IEnumerator WaveEndRoutine()
+    {
+        while (true)
+        {
+            _waveEnd.text = "You Win!";
+            yield return new WaitForSeconds(.5f);
+            _waveEnd.text = "";
+            yield return new WaitForSeconds(.5f);
+        }
+    }
+    IEnumerator WaveEndOver()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(5f);
+            _waveEnd.gameObject.SetActive(false);
         }
     }
 }
